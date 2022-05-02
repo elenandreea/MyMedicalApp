@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MyMedicalApp</string>
+    <string name="loginbtn">Login</string>
+    <string name="loginImg">TODO</string>
+    <string name="loginpassword">Password</string>
+    <string name="login_email_address">Email Address</string>
+</resources>
