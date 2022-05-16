@@ -1,8 +1,9 @@
-package com.ibm.mymedicalapp;
+package com.ibm.mymedicalapp.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.ibm.mymedicalapp.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getApplicationContext(), Login.class));
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 finish();
             }
         });
@@ -70,6 +72,14 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
+
+        CardView chatCardView = findViewById(R.id.chat_cardview);
+        chatCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),QuestionsActivity.class));
+            }
+        });
     }
 
     @Override
@@ -83,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.resetUserPassword){
-            startActivity(new Intent(getApplicationContext(),ResetPassword.class));
+            startActivity(new Intent(getApplicationContext(), ResetPasswordActivity.class));
         }
 
         if(item.getItemId() == R.id.updateEmailMenu){
@@ -134,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
                                 public void onSuccess(Void aVoid) {
                                     Toast.makeText(MainActivity.this, "Account deleted", Toast.LENGTH_SHORT).show();
                                     auth.signOut();
-                                    startActivity(new Intent(getApplicationContext(),Login.class));
+                                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                                     finish();
                                 }
                             }).addOnFailureListener(new OnFailureListener() {

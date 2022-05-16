@@ -2,6 +2,7 @@
   "project_info": {
     "project_number": "41750936199",
     "project_id": "mymedicalapp-e16cc",
+    "firebase_url": "https://mymedicalapp-e16cc-default-rtdb.europe-west1.firebasedatabase.app",
     "storage_bucket": "mymedicalapp-e16cc.appspot.com"
   },
   "client": [
