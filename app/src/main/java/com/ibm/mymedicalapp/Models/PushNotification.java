@@ -1,7 +1,14 @@
 package com.ibm.mymedicalapp.Models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class PushNotification {
+    @SerializedName("data")
+    @Expose
     private NotificationData notificationData;
+    @SerializedName("to")
+    @Expose
     private String to;
 
     public PushNotification(NotificationData notificationData, String to) {

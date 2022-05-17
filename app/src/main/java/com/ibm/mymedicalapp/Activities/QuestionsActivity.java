@@ -99,9 +99,7 @@ public class QuestionsActivity extends AppCompatActivity implements AdapterView.
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) { }
         });
     }
 
@@ -225,7 +223,6 @@ public class QuestionsActivity extends AppCompatActivity implements AdapterView.
 
                                     // Add post to firebase database
                                     addPost(post);
-
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
@@ -257,16 +254,16 @@ public class QuestionsActivity extends AppCompatActivity implements AdapterView.
         // get post unique ID and update post key
         String key = myRef.getKey();
         post.setPostKey(key);
-
+        sendNotificationToDoctors(key);
         // add post data to firebase database
-        myRef.setValue(post).addOnSuccessListener(aVoid -> {
-            showMessage("Post Added successfully");
-            sendNotificationToDoctors(key);
-            popupClickProgress.setVisibility(View.INVISIBLE);
-            popupAddBtn.setVisibility(View.VISIBLE);
-            popAddPost.dismiss();
-
-        });
+//        myRef.setValue(post).addOnSuccessListener(aVoid -> {
+//            showMessage("Post Added successfully");
+//            sendNotificationToDoctors(key);
+//            popupClickProgress.setVisibility(View.INVISIBLE);
+//            popupAddBtn.setVisibility(View.VISIBLE);
+//            popAddPost.dismiss();
+//
+//        });
     }
 
     private void sendNotificationToDoctors(String postID) {
@@ -278,11 +275,11 @@ public class QuestionsActivity extends AppCompatActivity implements AdapterView.
                 .build();
 
         NotificationAPI apiService = retrofit.create(NotificationAPI.class);
-        Call<Response> call = apiService.postNotification(data);
+        Call<com.ibm.mymedicalapp.Models.Response> call = apiService.postNotification(data);
 
-        call.enqueue(new Callback<Response>() {
+        call.enqueue(new Callback<com.ibm.mymedicalapp.Models.Response>() {
             @Override
-            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+            public void onResponse(Call<com.ibm.mymedicalapp.Models.Response> call, retrofit2.Response<com.ibm.mymedicalapp.Models.Response> response) {
                 if (!response.isSuccessful()) {
                     Log.d(TAG, String.valueOf(response.code()));
                     return;
@@ -290,7 +287,7 @@ public class QuestionsActivity extends AppCompatActivity implements AdapterView.
                 Toast.makeText(QuestionsActivity.this, "Message Pushed", Toast.LENGTH_SHORT).show();
             }
             @Override
-            public void onFailure(Call<Response> call, Throwable t) {
+            public void onFailure(Call<com.ibm.mymedicalapp.Models.Response> call, Throwable t) {
                 Log.d(TAG, t.getMessage());
             }
         });
@@ -304,12 +301,9 @@ public class QuestionsActivity extends AppCompatActivity implements AdapterView.
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
+    public void onNothingSelected(AdapterView<?> parent) { }
 
     private void showMessage(String message) {
-
         Toast.makeText(QuestionsActivity.this,message,Toast.LENGTH_LONG).show();
     }
 }
