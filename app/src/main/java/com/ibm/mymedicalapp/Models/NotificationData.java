@@ -6,28 +6,45 @@ import com.google.gson.annotations.SerializedName;
 public class NotificationData {
     @SerializedName("patient")
     @Expose
-    private String patientName;
+    private String patient;
+    @SerializedName("userID")
+    @Expose
+    private String userID;
     @SerializedName("category")
     @Expose
     private String category;
     @SerializedName("postID")
     @Expose
     private String postID;
+    @SerializedName("token")
+    @Expose
+    private String token;
+
 
     public NotificationData() {}
 
-    public NotificationData(String patientName, String category, String postID) {
-        this.patientName = patientName;
+    public NotificationData(String userID, String patient, String category, String postID, String token) {
+        this.patient = patient;
         this.category = category;
         this.postID = postID;
+        this.token = token;
+        this.userID = userID;
     }
 
-    public String getPatientName() {
-        return patientName;
+    public String getPatient() {
+        return patient;
     }
 
-    public void setPatientName(String patientName) {
-        this.patientName = patientName;
+    public void setPatient(String patient) {
+        this.patient = patient;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public String getCategory() {
@@ -44,5 +61,13 @@ public class NotificationData {
 
     public void setPostID(String postID) {
         this.postID = postID;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
