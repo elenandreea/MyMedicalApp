@@ -9,16 +9,23 @@ import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.ibm.mymedicalapp.Activities.QuestionsActivity;
 import com.ibm.mymedicalapp.R;
 
 public class NotificationService extends FirebaseMessagingService {
+
+    private static final String TAG = "NoticeService";
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage message) {
@@ -65,5 +72,14 @@ public class NotificationService extends FirebaseMessagingService {
     @Override
     public void onNewToken(@NonNull String token) {
         super.onNewToken(token);
+        Log.d(TAG, "Refreshed token: " + token);
+
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        String currentUID = firebaseUser.getUid();
+
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference("Tokens").child(currentUID);
+        databaseReference.setValue(token);
     }
 }

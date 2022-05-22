@@ -16,18 +16,14 @@ public class NotificationData {
     @SerializedName("postID")
     @Expose
     private String postID;
-    @SerializedName("token")
-    @Expose
-    private String token;
 
 
     public NotificationData() {}
 
-    public NotificationData(String userID, String patient, String category, String postID, String token) {
+    public NotificationData(String userID, String patient, String category, String postID) {
         this.patient = patient;
         this.category = category;
         this.postID = postID;
-        this.token = token;
         this.userID = userID;
     }
 
@@ -63,11 +59,4 @@ public class NotificationData {
         this.postID = postID;
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
 }

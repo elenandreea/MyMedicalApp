@@ -27,9 +27,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -38,6 +40,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -55,7 +58,6 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -254,20 +256,20 @@ public class QuestionsActivity extends AppCompatActivity implements AdapterView.
         // get post unique ID and update post key
         String key = myRef.getKey();
         post.setPostKey(key);
-        sendNotificationToDoctors(key);
-        // add post data to firebase database
-//        myRef.setValue(post).addOnSuccessListener(aVoid -> {
-//            showMessage("Post Added successfully");
-//            sendNotificationToDoctors(key);
-//            popupClickProgress.setVisibility(View.INVISIBLE);
-//            popupAddBtn.setVisibility(View.VISIBLE);
-//            popAddPost.dismiss();
-//
-//        });
+//        sendNotificationToDoctors(key);
+//         add post data to firebase database
+        myRef.setValue(post).addOnSuccessListener(aVoid -> {
+            showMessage("Post Added successfully");
+            sendNotificationToDoctors(key);
+            popupClickProgress.setVisibility(View.INVISIBLE);
+            popupAddBtn.setVisibility(View.VISIBLE);
+            popAddPost.dismiss();
+
+        });
     }
 
     private void sendNotificationToDoctors(String postID) {
-        NotificationData message = new NotificationData(currentUser.getDisplayName(), choice, postID);
+        NotificationData message = new NotificationData(currentUser.getUid(), currentUser.getDisplayName(), choice, postID);
         PushNotification data = new PushNotification(message, TOPIC + choice);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
