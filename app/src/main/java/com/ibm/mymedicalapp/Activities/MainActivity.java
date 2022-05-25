@@ -80,6 +80,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(),QuestionsActivity.class));
             }
         });
+
+        CardView calendarView = findViewById(R.id.calendar_cardview);
+        calendarView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), CalendarActivity.class));
+            }
+        });
     }
 
     @Override

@@ -37,6 +37,8 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0-alpha01'
     implementation 'com.android.support:design:30.0.2'
+    implementation 'com.getbase:floatingactionbutton:1.9.0'
+    implementation 'com.wdullaer:materialdatetimepicker:1.2.1'
 
     //firebase authentication
     implementation 'com.google.firebase:firebase-auth:19.3.0'
