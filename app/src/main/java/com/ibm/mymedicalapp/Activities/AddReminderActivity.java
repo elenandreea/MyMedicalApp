@@ -27,14 +27,21 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.ibm.mymedicalapp.Models.Alarm;
 import com.ibm.mymedicalapp.R;
+import com.ibm.mymedicalapp.Services.AlarmScheduler;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Random;
+
+import okhttp3.internal.cache.DiskLruCache;
 
 public class AddReminderActivity extends AppCompatActivity implements
         TimePickerDialog.OnTimeSetListener,
@@ -234,9 +241,10 @@ public class AddReminderActivity extends AppCompatActivity implements
             String alarmID = getIntent().getExtras().getString("alarm_id");
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            DatabaseReference ref = FirebaseDatabase.getInstance()
-                    .getReference("Alarms").child(user.getUid()).child(alarmID);
+            DatabaseReference ref = database.getReference("Alarms").child(user.getUid()).child(alarmID);
             ref.removeValue();
+            int alarmNumericalID = getIntent().getExtras().getInt("alarm_num_id");
+            new AlarmScheduler().cancelAlarm(getApplicationContext(), alarmNumericalID);
             finish();
         } else {
             Toast.makeText(this, "This alarm was not saved before!", Toast.LENGTH_SHORT).show();
@@ -278,6 +286,8 @@ public class AddReminderActivity extends AppCompatActivity implements
             DatabaseReference myRef = database.getReference("Alarms").child(user.getUid()).push();
             String key = myRef.getKey();
             alarm.setAlarmID(key);
+            int alarmNumericalId = getNumericalIdentifier();
+            alarm.setAlarmNumericalID(alarmNumericalId);
             myRef.setValue(alarm).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
@@ -288,7 +298,9 @@ public class AddReminderActivity extends AppCompatActivity implements
         }else {
 
             String alarmID = getIntent().getExtras().getString("alarm_id");
+            int alarmNumericalId = getIntent().getExtras().getInt("alarm_num_id");
             alarm.setAlarmID(alarmID);
+            alarm.setAlarmNumericalID(alarmNumericalId);
             database.getReference("Alarms").child(user.getUid()).child(alarmID).setValue(alarm)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
@@ -298,22 +310,27 @@ public class AddReminderActivity extends AppCompatActivity implements
             });
         }
 
-//        // Create a new notification
-//        if (mActive.equals("true")) {
-//            if (mRepeat.equals("true")) {
-//                new AlarmScheduler().setRepeatAlarm(getApplicationContext(), selectedTimestamp, mCurrentReminderUri, mRepeatTime);
-//            } else if (mRepeat.equals("false")) {
-//                new AlarmScheduler().setAlarm(getApplicationContext(), selectedTimestamp, mCurrentReminderUri);
-//            }
-//
-//            Toast.makeText(this, "Alarm time is " + selectedTimestamp,
-//                    Toast.LENGTH_LONG).show();
-//        }
-//
-//        // Create toast to confirm new reminder
-//        Toast.makeText(getApplicationContext(), "Saved",
-//                Toast.LENGTH_SHORT).show();
+        // Create a new notification
+        if (mActive.equals("true")) {
+            if (mRepeat.equals("true")) {
+                new AlarmScheduler().setRepeatAlarm(getApplicationContext(), selectedTimestamp, alarm.getAlarmNumericalID(), mRepeatTime, mTitle);
+            } else if (mRepeat.equals("false")) {
+                new AlarmScheduler().setAlarm(getApplicationContext(), selectedTimestamp, alarm.getAlarmNumericalID(), mTitle);
+            }
 
+            Toast.makeText(this, "Alarm time is " + selectedTimestamp,
+                    Toast.LENGTH_LONG).show();
+        }
+
+        // Create toast to confirm new reminder
+        Toast.makeText(getApplicationContext(), "Saved",
+                Toast.LENGTH_SHORT).show();
+
+    }
+
+    private int getNumericalIdentifier() {
+        int randomNr = new Random().nextInt();
+        return randomNr;
     }
 
     // On clicking Time picker

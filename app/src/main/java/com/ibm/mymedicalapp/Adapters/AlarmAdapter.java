@@ -73,6 +73,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
 
                     editIntent.putExtra("action", "edit");
                     editIntent.putExtra("alarm_id", alarmsData.get(position).getAlarmID());
+                    editIntent.putExtra("alarm_num_id", alarmsData.get(position).getAlarmNumericalID());
                     mContext.startActivity(editIntent);
                 }
             });

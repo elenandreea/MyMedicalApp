@@ -1,6 +1,7 @@
 package com.ibm.mymedicalapp.Models;
 
 public class Alarm {
+    private int alarmNumericalID;
     private String alarmID;
     private String title;
     private String quantity;
@@ -22,6 +23,14 @@ public class Alarm {
         this.mRepeatNo = mRepeatNo;
         this.mRepeatType = mRepeatType;
         this.mActive = mActive;
+    }
+
+    public int getAlarmNumericalID() {
+        return alarmNumericalID;
+    }
+
+    public void setAlarmNumericalID(int alarmNumericalID) {
+        this.alarmNumericalID = alarmNumericalID;
     }
 
     public String getAlarmID() {
