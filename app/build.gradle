@@ -50,6 +50,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:20.0.4'
     //firebase Messaging
     implementation 'com.google.firebase:firebase-messaging:23.0.4'
+    //firebase ML
+    implementation 'com.google.firebase:firebase-ml-modeldownloader:24.0.3'
+    //TensorFlow
+    implementation 'org.tensorflow:tensorflow-lite:2.3.0'
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'

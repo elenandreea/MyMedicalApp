@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ibm.mymedicalapp">
 
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.AddReminderActivity"></activity>
+        <activity android:name=".Activities.DiagnoseActivity"></activity>
+        <activity android:name=".Activities.AddReminderActivity" />
         <activity android:name=".Activities.CalendarActivity" />
 
         <service android:name=".Services.NotificationService">
@@ -34,10 +35,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activities.MainActivity" />
-        <receiver android:name=".Services.AlarmReceiver"
+
+        <receiver
+            android:name=".Services.AlarmReceiver"
             android:enabled="true"
-            android:exported="true">
-        </receiver>
+            android:exported="true"></receiver>
     </application>
 
 </manifest>

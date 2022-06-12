@@ -88,6 +88,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), CalendarActivity.class));
             }
         });
+
+        CardView diagnoseView = findViewById(R.id.diagnose_cardview);
+        diagnoseView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), DiagnoseActivity.class));
+            }
+        });
     }
 
     @Override

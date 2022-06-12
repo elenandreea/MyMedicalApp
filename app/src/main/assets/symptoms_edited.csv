@@ -1,0 +1,132 @@
+﻿bruising,circulatory,67
+cold_hands_and_feets,circulatory,18
+fast_heart_rate,circulatory,59
+fluid_overload,circulatory,46
+fluid_overload,circulatory,118
+painful_walking,circulatory,122
+palpitations,circulatory,121
+prominent_veins_on_calf,circulatory,120
+receiving_blood_transfusion,circulatory,112
+swollen_blood_vessels,circulatory,70
+swollen_extremeties,circulatory,74
+swollen_legs,circulatory,69
+abdominal_pain,digestive,40
+acidity,digestive,9
+acute_liver_failure,digestive,45
+belly_pain,digestive,101
+bloody_stool,digestive,62
+constipation,digestive,39
+cramps,digestive,66
+diarrhoea,digestive,41
+distention_of_abdomen,digestive,116
+indigestion,digestive,31
+irritation_in_anus,digestive,63
+nausea,digestive,35
+pain_during_bowel_movements,digestive,60
+pain_in_anal_region,digestive,61
+passage_of_gases,digestive,93
+stomach_bleeding,digestive,115
+stomach_pain,digestive,8
+swelling_of_stomach,digestive,47
+ulcers_on_tongue,digestive,10
+vomiting,digestive,12
+family_history,history,107
+history_of_alcohol_consumption,history,117
+enlarged_thyroid,metabolic,72
+excessive_hunger,metabolic,75
+increased_appetite,metabolic,105
+irregular_sugar_level,metabolic,24
+obesity,metabolic,68
+swelled_lymph_nodes,metabolic,48
+weight_gain,metabolic,16
+weight_loss,metabolic,20
+back_pain,musculoskeletal,38
+hip_joint_pain,musculoskeletal,80
+joint_pain,musculoskeletal,7
+knee_pain,musculoskeletal,79
+movement_stiffness,musculoskeletal,84
+muscle_pain,musculoskeletal,98
+muscle_wasting,musculoskeletal,11
+muscle_weakness,musculoskeletal,81
+stiff_neck,musculoskeletal,82
+swelling_joints,musculoskeletal,83
+weakness_in_limbs,musculoskeletal,58
+anxiety,nervous system,17
+coma,nervous system,114
+depression,nervous system,96
+dizziness,nervous system,65
+headache,nervous system,32
+irritability,nervous system,97
+lack_of_concentration,nervous system,110
+lethargy,nervous system,22
+mood_swings,nervous system,19
+pain_behind_the_eyes,nervous system,37
+phlegm,nervous system,51
+restlessness,nervous system,21
+scurring,nervous system,125
+slurred_speech,nervous system,78
+weakness_of_one_body_side,nervous system,88
+abnormal_menstruation,reproductive,102
+extra_marital_contacts,reproductive,76
+internal_itching,reproductive,94
+blood_in_sputum,respiratory,119
+breathlessness,respiratory,28
+congestion,respiratory,56
+continuous_sneezing,respiratory,4
+cough,respiratory,25
+mucoid_sputum,respiratory,108
+neck_pain,respiratory,64
+runny_nose,respiratory,55
+rusty_sputum,respiratory,109
+sinus_pressure,respiratory,54
+throat_irritation,respiratory,52
+altered_sensorium,sense organs,99
+blackheads,sense organs,124
+blister,sense organs,130
+blurred_and_distorted_vision,sense organs,50
+brittle_nails,sense organs,73
+dischromic _patches,sense organs,103
+drying_and_tingling_lips,sense organs,77
+inflammatory_nails,sense organs,129
+itching,sense organs,1
+loss_of_balance,sense organs,86
+loss_of_smell,sense organs,89
+nodal_sense organs_eruptions,sense organs,3
+patches_in_throat,sense organs,23
+puffy_face_and_eyes,sense organs,71
+pus_filled_pimples,sense organs,123
+red_sore_around_nose,sense organs,131
+red_spots_over_body,sense organs,100
+redness_of_eyes,sense organs,53
+sense organs_peeling,sense organs,126
+sense organs_rash,sense organs,2
+silver_like_dusting,sense organs,127
+small_dents_in_nails,sense organs,128
+spinning_movements,sense organs,85
+sunken_eyes,sense organs,27
+unsteadiness,sense organs,87
+visual_disturbances,sense organs,111
+watering_from_eyes,sense organs,104
+yellow_crust_ooze,sense organs,132
+yellowing_of_eyes,sense organs,44
+yellowish_sense organs,sense organs,33
+chest_pain,systemic symptoms,57
+chills,systemic symptoms,6
+dehydration,systemic symptoms,30
+fatigue,systemic symptoms,15
+high_fever,systemic symptoms,26
+loss_of_appetite,systemic symptoms,36
+malaise,systemic symptoms,49
+mild_fever,systemic symptoms,42
+receiving_unsterile_injections,systemic symptoms,113
+shivering,systemic symptoms,5
+sweating,systemic symptoms,29
+toxic_look_(typhos),systemic symptoms,95
+bladder_discomfort,urinary,90
+burning_micturition,urinary,13
+continuous_feel_of_urine,urinary,92
+dark_urine,urinary,34
+foul_smell_of urine,urinary,91
+polyuria,urinary,106
+spotting_ urination,urinary,14
+yellow_urine,urinary,43

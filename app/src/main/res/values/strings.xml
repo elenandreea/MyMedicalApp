@@ -27,4 +27,6 @@
     <string name="repeat_no">No Repeat</string>
     <string name="repeat_type">Repeat type</string>
     <string name="quantity">Quantity</string>
+    <string name="detail_select_symptom">Please select your symptoms in order to provide you an answer</string>
+    <string name="evaluate_symptoms">Evaluate symptoms</string>
 </resources>
