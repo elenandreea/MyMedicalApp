@@ -10,12 +10,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
+import android.location.LocationManager;
+import android.location.SettingInjectorService;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -27,6 +32,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -51,15 +58,19 @@ import com.ibm.mymedicalapp.Models.NotificationData;
 import com.ibm.mymedicalapp.Models.Post;
 import com.ibm.mymedicalapp.Models.PushNotification;
 
+import com.ibm.mymedicalapp.Models.UserLocation;
 import com.ibm.mymedicalapp.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static androidx.core.content.ContextCompat.getSystemService;
 
 public class QuestionsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -80,6 +91,9 @@ public class QuestionsActivity extends AppCompatActivity implements AdapterView.
     PostAdapter postAdapter;
     List<Post> postList;
     String choice = "";
+
+    FusedLocationProviderClient fusedLocationProviderClient;
+    private static final int PERMISSION_REQUEST_ACCESS_LOCATION = 100;
 
     @Override
     protected void onStart() {
@@ -123,6 +137,8 @@ public class QuestionsActivity extends AppCompatActivity implements AdapterView.
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(view -> popAddPost.show());
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
     }
 
@@ -260,12 +276,87 @@ public class QuestionsActivity extends AppCompatActivity implements AdapterView.
 //         add post data to firebase database
         myRef.setValue(post).addOnSuccessListener(aVoid -> {
             showMessage("Post Added successfully");
+            getCurrentLocation();
             sendNotificationToDoctors(key);
             popupClickProgress.setVisibility(View.INVISIBLE);
             popupAddBtn.setVisibility(View.VISIBLE);
             popAddPost.dismiss();
 
         });
+    }
+
+    private void getCurrentLocation() {
+        if (checkForLocationPermission()){
+            if (isLocationEnabled()){
+                //we can get the location
+                fusedLocationProviderClient.getLastLocation().addOnCompleteListener(QuestionsActivity.this, task -> {
+                    Location location = task.getResult();
+                    if (location == null){
+                        Toast.makeText(this, "Problem", Toast.LENGTH_SHORT).show();
+                    } else {
+                        double currentLatitude = location.getLatitude();
+                        double currentLongitude = location.getLongitude();
+                        DatabaseReference ref = firebaseDatabase.getReference("Locations").child(currentUser.getUid());
+                        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if (snapshot.exists()){
+                                    UserLocation userLocation = snapshot.getValue(UserLocation.class);
+                                    float[] distance = new float[1];
+                                    Location.distanceBetween(currentLatitude, currentLongitude,
+                                            userLocation.getLatitude(), userLocation.getLongitude(), distance);
+                                    if (distance[0] > 2.0){
+                                        ref.setValue(new UserLocation(currentLatitude, currentLongitude));
+                                    }
+                                } else {
+                                    ref.setValue(new UserLocation(currentLatitude, currentLongitude));
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) { }
+                        });
+                    }
+                });
+            } else {
+                // open settings here
+                Toast.makeText(this, "Turn on location", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
+        } else {
+            // request the permission here
+            requestPermission();
+        }
+    }
+
+    private boolean isLocationEnabled() {
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == PERMISSION_REQUEST_ACCESS_LOCATION){
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(getApplicationContext(), "Granted", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(this,  new String[] { Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION},
+                PERMISSION_REQUEST_ACCESS_LOCATION);
+    }
+
+    private boolean checkForLocationPermission() {
+        return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
 
     private void sendNotificationToDoctors(String postID) {
