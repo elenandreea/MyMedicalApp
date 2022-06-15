@@ -70,7 +70,6 @@ import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static androidx.core.content.ContextCompat.getSystemService;
 
 public class QuestionsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
