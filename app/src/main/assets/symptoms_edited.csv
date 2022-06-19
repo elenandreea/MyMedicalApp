@@ -91,16 +91,16 @@ inflammatory_nails,sense organs,129
 itching,sense organs,1
 loss_of_balance,sense organs,86
 loss_of_smell,sense organs,89
-nodal_sense organs_eruptions,sense organs,3
+nodal_skin_eruptions,sense organs,3
 patches_in_throat,sense organs,23
 puffy_face_and_eyes,sense organs,71
 pus_filled_pimples,sense organs,123
 red_sore_around_nose,sense organs,131
 red_spots_over_body,sense organs,100
 redness_of_eyes,sense organs,53
-sense organs_peeling,sense organs,126
-sense organs_rash,sense organs,2
 silver_like_dusting,sense organs,127
+skin_peeling,sense organs,126
+skin_rash,sense organs,2
 small_dents_in_nails,sense organs,128
 spinning_movements,sense organs,85
 sunken_eyes,sense organs,27
@@ -109,7 +109,7 @@ visual_disturbances,sense organs,111
 watering_from_eyes,sense organs,104
 yellow_crust_ooze,sense organs,132
 yellowing_of_eyes,sense organs,44
-yellowish_sense organs,sense organs,33
+yellowish_skin,sense organs,33
 chest_pain,systemic symptoms,57
 chills,systemic symptoms,6
 dehydration,systemic symptoms,30
