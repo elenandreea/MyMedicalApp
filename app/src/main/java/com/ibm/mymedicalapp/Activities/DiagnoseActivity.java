@@ -29,6 +29,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DiagnoseActivity extends AppCompatActivity {
@@ -41,7 +43,6 @@ public class DiagnoseActivity extends AppCompatActivity {
     Button evaluateBtn;
     TextView infoTxt;
     Intent intent;
-    TextView helpTxt;
     int[] inputSymptoms;
 
     @Override
@@ -88,7 +89,6 @@ public class DiagnoseActivity extends AppCompatActivity {
         symptomRecyclerView.setHasFixedSize(true);
 
         infoTxt = findViewById(R.id.select_symptom_text);
-        helpTxt = findViewById(R.id.help);
         evaluateBtn = findViewById(R.id.evaluate_btn);
         evaluateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,59 +97,29 @@ public class DiagnoseActivity extends AppCompatActivity {
 //                populateDiseaseDB.readExcelDisease();
                 List<Integer> checkedBoxList = symptomAdapter.getSelectedSymptoms();
                 inputSymptoms = createInputArray(checkedBoxList);
-//                returnDiagnosisUsingThread();
-                int result = returnDiagnosisUsingExecutor();
-                System.out.println("lalalallala:" + result);
-                intent = new Intent(getApplicationContext(), DisplayResultActivity.class);
-                intent.putExtra("result", result);
-                startActivity(intent);
+                getResultAsyncAndSendItToActivity();
             }
         });
 
     }
 
-    class DiagnoseRunnable implements Runnable{
-        private volatile int value;
-
-        @Override
-        public void run() {
-            value = Integer.parseInt(getDiagnosisResult());
-//            runOnUiThread(() -> helpTxt.setText(value));
-        }
-
-        public int getValue() {
-            return value;
-        }
-    }
-
-    DiagnoseRunnable diagnoseRunnable = new DiagnoseRunnable();
-
-    private int returnDiagnosisUsingExecutor() {
-        ExecutorService executorService = Executors.newFixedThreadPool(1);
-        executorService.submit(diagnoseRunnable);
-        try {
-            executorService.awaitTermination(1,TimeUnit.SECONDS);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return diagnoseRunnable.getValue();
-    }
-
-    private void returnDiagnosisUsingThread() {
-        new Thread(diagnoseRunnable).start();
-    }
-
-    private String getDiagnosisResult(){
-        String result ="";
-        try {
-            Response<String> response = ServerServiceProvider.createRetrofitService().getDiagnose(inputSymptoms).execute();
-            if (response.body() != null) {
-                result = response.body();
+    private void getResultAsyncAndSendItToActivity(){
+        ServerServiceProvider.createRetrofitService().getDiagnose(inputSymptoms).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()){
+                    String result = response.body();
+                    intent = new Intent(getApplicationContext(), DisplayResultActivity.class);
+                    intent.putExtra("result", Integer.parseInt(result));
+                    startActivity(intent);
+                }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result;
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
     private int[] createInputArray(List<Integer> checkedBoxList) {
