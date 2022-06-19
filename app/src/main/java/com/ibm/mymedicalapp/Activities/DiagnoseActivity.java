@@ -93,8 +93,6 @@ public class DiagnoseActivity extends AppCompatActivity {
         evaluateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                PopulateDiseaseDB populateDiseaseDB = new PopulateDiseaseDB();
-//                populateDiseaseDB.readExcelDisease();
                 List<Integer> checkedBoxList = symptomAdapter.getSelectedSymptoms();
                 inputSymptoms = createInputArray(checkedBoxList);
                 getResultAsyncAndSendItToActivity();
